@@ -1,0 +1,101 @@
+﻿#Task1:
+
+
+def mergeSortedArray(arr1, arr2):
+  n = len(arr1)
+  m = len(arr2)
+  narr = np.array([0]*(n+m))
+  k = 0
+  i = 0
+  j = 0
+
+
+  while i < n and j < m:
+      if arr1[i] < arr2[j]:
+        narr[k] = arr1[i]
+        i += 1
+        k += 1
+      elif arr1[i] >= arr2[j]:
+        narr[k] = arr2[j]
+        j += 1
+        k += 1
+
+
+  while i < n:
+      narr[k]=arr1[i]
+      i += 1
+      k += 1
+
+
+  while j < m:
+      narr[k] = arr2[j]
+      j += 1
+      k += 1
+
+
+  k += 1
+  return narr
+
+
+
+
+
+
+
+
+#Task2:
+
+
+def mostWater(arr):
+  n = len(arr)
+  max_area = 0
+  left = 0
+  right = n-1
+  while left < right:
+    width = right - left
+    height = min(arr[left], arr[right])
+    area = width * height
+    if arr[left] < arr[right]:
+      left += 1
+    else:
+      right -= 1
+    if area > max_area:
+      max_area = area
+  print(max_area)
+
+
+#Task3:
+
+
+def check_similar(building_1, building_2):
+  c1 = building_1
+  c2 = building_2
+  while c1 != None and c2 != None:
+    if c1.elem != c2.elem:
+      return 'Not Similar'
+    c1 = c1.next
+    c2 = c2.next
+
+
+  if c1 == None and c2 == None:
+    return 'Similar'
+  else:
+    return 'Not Similar'
+
+
+
+
+#Task4:
+
+
+def assemble_conga_line(conga_line):
+  if conga_line == None or conga_line.next == None:
+    return True
+
+
+  current = conga_line
+  while current.next != None:
+    if current.elem > current.next.elem:
+      return False
+    current = current.next
+  return True

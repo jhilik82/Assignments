@@ -1,0 +1,306 @@
+﻿#Task 1
+class MinHeap:
+  def __init__(self, capacity):
+    self.capacity = capacity
+    self.__heap = np.zeros(capacity, dtype=object)
+    self.__size = 0
+
+
+  def insert(self, value):
+    if self.__size == self.capacity:
+      return
+    self.__heap[self.__size] = value
+    self.__size += 1
+    self.swim(self.__size-1)
+
+
+  def delete(self, heap):
+    hsize = self.get_hsize(heap)
+    if hsize < 1:
+      return
+    minval = self.extractMin()
+    heap[i] = heap[hsize]
+    heap[hsize] = None
+    self.sink(heap, 1, self.get_hsize(heap))
+    return minval
+
+
+  def swim(self, index):
+    parent = (index - 1) // 2
+    while index > 0 and self.__heap[index] < self.__heap[parent]:
+      temp = self.__heap[index]
+      self.__heap[index] = self.__heap[parent]
+      self.__heap[parent] = temp
+      index = parent
+      parent = (index - 1) // 2
+
+
+  def extractMin(self):
+    if self.__size==0:
+      return
+    min=self.__heap[0]
+    self.__heap[0]=self.__heap[self.__size-1]
+    self.__size-=1
+    self.sink(0)
+    return min
+
+
+
+
+  def sink(self, index):
+    while True:
+      left_child = 2 * index
+      right_child = 2 * index + 1
+      smallest = index
+
+
+      if left_child <= self.__size and self.__heap[left_child] < self.__heap[smallest]:
+        smallest = left_child
+
+
+      if right_child <= self.__size and self.__heap[right_child] < self.__heap[smallest]:
+        smallest = right_child
+
+
+      if smallest == index:
+        break
+
+
+      temp = self.__heap[index]
+      self.__heap[index] = self.__heap[smallest]
+      self.__heap[smallest] = temp
+      index = smallest
+
+
+  def sort(self):
+    sorted_heap = [0] * self.__size
+    original_size = self.__size
+    index = 0
+    while self.__size > 0:
+      sorted_heap[index] = self.extractMin()
+      index += 1
+
+
+    self.__heap[:original_size] = sorted_heap
+    return sorted_heap
+
+
+  def get_hsize(self, heap):
+    return len(heap)
+
+
+  def getHeap(self):
+    return self.__heap[:self.__size]
+
+
+  def __str__(self):
+    return f' {self.__heap[:self.__size]}'
+
+
+
+
+
+
+
+
+#Task 2
+class MaxHeap:
+  def __init__(self, capacity):
+    self.capacity=capacity
+    self.__heap=np.zeros(capacity, dtype=int)
+    self.__size=0
+
+
+  def insert(self, value):
+    if self.__size == self.capacity:
+      return
+    self.__heap[self.__size] = value
+    self.__size += 1
+    self.swim(self.__size-1)
+
+
+  def delete(self, heap):
+    hsize=self.get_hsize(heap)
+    if hsize < 1:
+      return
+    maxval = self.extractMax()
+    heap[i] = heap[hsize]
+    heap[hsize] = None
+    self.sink(heap, 1, self.get_hsize(heap))
+    return maxval
+
+
+  def swim(self, index):
+    parent = (index - 1) // 2
+    while index > 0 and self.__heap[index] > self.__heap[parent]:
+      temp = self.__heap[index]
+      self.__heap[index] = self.__heap[parent]
+      self.__heap[parent] = temp
+      index = parent
+      parent = (index - 1) // 2
+
+
+  def extractMax(self):
+    if self.__size == 0:
+      return None
+    max = self.__heap[0]
+    self.__heap[0] = self.__heap[self.__size - 1]
+    self.__size -= 1
+    self.sink(0)
+    return max
+
+
+  def sink(self, index):
+    while True:
+      left_child = 2 * index
+      right_child = 2 * index +1
+      largest = index
+
+
+      if left_child <= self.__size and self.__heap[left_child] > self.__heap[largest]:
+        largest = left_child
+
+
+      if right_child <= self.__size and self.__heap[right_child] > self.__heap[largest]:
+        largest = right_child
+
+
+      if largest == index:
+        break
+
+
+      temp = self.__heap[index]
+      self.__heap[index] = self.__heap[largest]
+      self.__heap[largest] = temp
+      index = largest
+
+
+  def sort(self):
+    sorted_array = np.zeros(self.__size, dtype=int)
+    original_size = self.__size
+
+
+    for i in range(original_size):
+      sorted_array[i] = self.extractMax()
+    self.__size = original_size
+    return sorted_array[:original_size]
+
+
+  def get_hsize(self, heap):
+    return len(heap)
+
+
+  def getHeap(self):
+    return self.__heap[:self.__size]
+
+
+  def __str__(self):
+    return f' {self.__heap[:self.__size]}'
+
+
+
+
+
+
+
+
+#Tester
+heap = MinHeap(10)
+heap.insert(10)
+heap.insert(15)
+heap.insert(20)
+heap.insert(17)
+heap.insert(8)
+heap.insert(5)
+print(heap)
+print("THE ARRAY AFTER SORTING", heap.sort())
+
+
+x = MaxHeap(10)
+x.insert(10)
+x.insert(15)
+x.insert(20)
+x.insert(17)
+x.insert(8)
+x.insert(5)
+print(x)
+print("THE ARRAY AFTER SORTING", x.sort())
+
+
+
+
+
+
+#Task 3
+def taskfind(arr, m):
+
+
+  heap= MinHeap(m+1)
+  ar= heap.get_array()
+
+
+  i=1
+  while i <= m:  
+    heap.insert(0)
+    i+=1
+
+
+  for i in range(len(arr)):
+    sum=0
+    ex = heap.extractMin()
+    sum= ex + arr[i]
+    heap.insert(sum)
+
+
+  ar= heap.get_array()[1:heap.get_size()+1]
+  print(ar)
+  print(sorted(ar))
+  return
+
+
+arr= np.array([2, 4, 7, 1, 6])
+m= 4
+b= taskfind(arr, m)
+print(b)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#Task 4
+def findlargest(nums, k):
+  n = len(nums)
+  if n == 0 or k == 0:
+    return []
+
+
+  heap = MaxHeap(n)
+  for num in nums:
+    heap.insert(num)
+  rlist = []
+  for i in range(k):
+    max = heap.extractMax()
+    rlist += [max]
+
+
+  return rlist
+nums = [4, 10, 2, 8, 6, 7]
+k = 3
+print(findlargest(nums, k))

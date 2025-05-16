@@ -1,0 +1,119 @@
+﻿#Task 1:
+
+
+def walk_zigzag(floor):
+  row,col = floor.shape
+  for c in range(col):
+    if c%2==0:
+      for r in range(row):
+        if r%2==0:
+          print(floor[r][c], end=' ')
+      print()
+    else:
+      if row%2==0:
+        for r in range(row-1,-1,-2):
+          print(floor[r][c], end=' ')
+        print()
+      else:
+        for r in range(row-2,-1,-2):
+          print(floor[r][c], end=' ')
+        print()
+
+
+
+
+#Task  2:
+
+
+def decrypt_matrix(matrix):
+  row,col=matrix.shape
+  new_class=np.zeros(col-1, dtype=int)
+  sum_mat=np.zeros(col, dtype=int)
+  for c in range(col):
+    for r in range(row):
+      sum_mat[c]+=matrix[r][c]
+  for i in range((len(sum_mat)-1)):
+    new_class[i]=sum_mat[i+1]-sum_mat[i]
+  return (new_class)
+
+
+
+
+
+
+#Task 3:
+
+
+def row_rotation(exam_week, seat_status):
+  rows = len(seat_status)
+  cols = len(seat_status[0])
+  for i in range(rows):
+      for j in range(cols):
+        if seat_status[i][j] == "AA":
+          original_row = i
+          break
+  new_row = (original_row + exam_week - 1) % rows
+  new_matrix = [None] * rows
+  for i in range(rows):
+    new_matrix[(i + exam_week - 1) % rows] = seat_status[i]
+
+
+  for row in new_matrix:
+        for i in range(len(row)):
+            if i == len(row) - 1:
+                print(row[i], end=" |\n")
+            else:
+                print(row[i], end=" | ")
+   
+  print(f"\nYour friend AA will be on row {new_row + 1}")
+
+
+#Task 4:
+
+
+def compress_matrix(mat):
+  row,col=matrix.shape
+  new_mat=np.zeros((row//2,col//2), dtype=int)
+
+
+  for i in range(0,row,2):
+    for j in range(0,col,2):
+      new_mat[i//2][j//2]=mat[i][j]+mat[i][j+1]+mat[i+1][j]+mat[i+1][j+1]
+  return new_mat
+
+
+
+
+#Task 5:
+
+
+def play_game(arena):
+  row,col=arena.shape
+  score=0
+  directions=[(-1, 0), (1, 0), (0, -1), (0, 1)]
+
+
+  for r in range(row):
+    for c in range(col):
+      if arena[r][c]%50==0 and arena[r][c]>0:
+        count_two=0
+
+
+        for d in range(4):
+          dr = directions[d][0]
+          dc = directions[d][1]
+          nr = r + dr
+          nc = c + dc
+
+
+          if nr>=0 and nr<row and nc>=0 and nc<col and arena[nr][nc]==2:
+            count_two+=1
+
+
+        score += count_two * 2
+
+
+  if score >= 10:
+    return f"Points Gained: {score}. Your team has survived the game."
+  else:
+    return f"Points Gained: {score}. Your team is out."

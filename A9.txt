@@ -1,0 +1,953 @@
+﻿#Task 1
+#Adjacent matrix
+class Graph:
+    def __init__(self, vertices):
+        self.vertices = vertices
+        self.adj_matrix = np.zeros((vertices,vertices),dtype=int)
+
+
+
+
+    def add_edges(self, edges):
+
+
+        for i, j in edges:
+            self.adj_matrix[i][j] = 1
+            self.adj_matrix[j][i] = 1
+
+
+    def print_matrix(self):
+
+
+        print("Adjacency Matrix For Undirected Unweighted Graph:")
+        for row in self.adj_matrix:
+            print(row)
+
+
+    def find_neighbors(self, vertex):
+
+
+        neighbors = []
+        for i in range(self.vertices):
+            if self.adj_matrix[vertex][i] == 1:
+                neighbors+=str(i)
+
+
+        print(f"\nNeighbors of vertex {vertex}: ", end="")
+        for i in range(len(neighbors)):
+             if i != 0:
+               print(", ", end="")
+             print(int(neighbors[i]), end="")
+
+
+    def find_max_degree(self):
+        max_degree = 0
+        max_vertex = -1
+
+
+        for vertex in range(self.vertices):
+            count = 0
+            for i in range(self.vertices):
+                if self.adj_matrix[vertex][i] == 1:
+                    count += 1
+
+
+            if count > max_degree:
+                max_degree = count
+                max_vertex = vertex
+
+
+        print(f"\nVertex with maximum degree: {max_vertex} (Total degree: {max_degree})")
+        return max_vertex, max_degree
+vertices = 7
+edges = [
+    (0,1),
+    (0,2),
+    (0,3),
+    (0,4),
+    (0,5),
+    (0,6),
+    (1,3),
+    (1,4),
+    (1,5),
+    (2,4),
+    (2,6),
+    (3,5),
+    (3,6),
+    (4,5),
+    (4,6),
+    (5,6),
+    ]
+
+
+graph = Graph(vertices)
+print("Before putting connections:")
+graph.print_matrix()
+
+
+print("After putting connections:")
+graph.add_edges(edges)
+graph.print_matrix()
+
+
+graph.find_neighbors(vertex=0)
+graph.find_neighbors(vertex=1)
+graph.find_neighbors(vertex=2)
+graph.find_neighbors(vertex=3)
+graph.find_neighbors(vertex=4)
+graph.find_neighbors(vertex=5)
+graph.find_neighbors(vertex=6)
+graph.find_max_degree()
+
+
+
+
+
+
+#Adjacent list
+class Node:
+    def __init__(self, elem, weight=1, next=None):
+        self.elem = elem
+        self.weight = weight
+        self.next = next
+
+
+class Graph:
+    def __init__(self, vertices):
+        self.vertices = vertices
+        self.adj_list = [None] * vertices
+
+
+    def add_edge(self, edges):
+        for i, j in edges:
+            new_node = Node(j)
+            new_node.next = self.adj_list[i]
+            self.adj_list[i] = new_node
+
+
+            new_node = Node(i)
+            new_node.next = self.adj_list[j]
+            self.adj_list[j] = new_node
+
+
+    def print_graph(self):
+        print("Adjacency List for undirected unweighted graph:")
+
+
+        for i in range(self.vertices):
+            print(f"{i}: ", end="")
+            t = self.adj_list[i]
+            while t != None:
+                print(f"({t.elem})", end=" -> ")
+                t = t.next
+            print("None")
+
+
+    def find_neighbors(self, vertex):
+        print(f"\nNeighbors of vertex {vertex}: ", end="")
+        t = self.adj_list[vertex]
+        while t!=None:
+
+
+            if t.next!= None:
+                print(f"{t.elem}", end=", ")
+            else:
+                print(f"{t.elem}", end="")
+            t = t.next
+        print()
+
+
+    def find_max_degree(self):
+        max_degree = 0
+        max_vertex = -1
+
+
+        for i in range(self.vertices):
+            count= 0
+            t = self.adj_list[i]
+            while t!= None:
+                 count+=1
+                 t = t.next
+
+
+            if count > max_degree:
+                max_degree = count
+                max_vertex = i
+
+
+        print(f"\nVertex with maximum degree: {max_vertex} (Total degree: {max_degree})")
+        return max_vertex, max_degree
+
+
+# Driver code
+vertices = 7
+edges = [
+    (0, 1),
+    (0, 2),
+    (0, 3),
+    (0, 4),
+    (0, 5),
+    (0, 6),
+    (1, 3),
+    (1, 4),
+    (1, 5),
+    (2, 4),
+    (2, 6),
+    (3, 5),
+    (3, 6),
+    (4, 5),
+    (4, 6),
+    (5, 6),
+]
+
+
+graph = Graph(vertices)
+print("Before putting connections:")
+graph.print_graph()
+
+
+print("After putting connections:")
+graph.add_edge(edges)
+graph.print_graph()
+
+
+graph.find_neighbors(vertex=0)
+graph.find_neighbors(vertex=1)
+graph.find_neighbors(vertex=2)
+graph.find_neighbors(vertex=3)
+graph.find_neighbors(vertex=4)
+graph.find_neighbors(vertex=5)
+graph.find_neighbors(vertex=6)
+graph.find_max_degree()
+
+
+
+
+#Task 2
+#Adjacent Matrix
+class Graph:
+    def __init__(self, vertices):
+        self.vertices = vertices
+        self.adj_matrix = np.zeros((vertices,vertices),dtype=int)
+
+
+
+
+    def add_edges(self, edges):
+
+
+        for i, j,weight in edges:
+            self.adj_matrix[i][j] = weight
+            self.adj_matrix[j][i] = weight
+
+
+    def print_matrix(self):
+
+
+        print("Adjacency Matrix for undirected weighted graph:")
+        for row in self.adj_matrix:
+            print(row)
+
+
+    def find_neighbors(self, vertex):
+
+
+        neighbors = []
+        for i in range(self.vertices):
+            if self.adj_matrix[vertex][i] !=0:
+                neighbors+=str(i)
+
+
+        print(f"\nNeighbors of vertex {vertex}: ", end="")
+        for i in range(len(neighbors)):
+             if i != 0:
+               print(", ", end="")
+             print(int(neighbors[i]), end="")
+
+
+    def find_max_sum(self):
+        max_sum = 0
+        max_vertex = -1
+
+
+        for vertex in range(self.vertices):
+            count = 0
+            for i in range(self.vertices):
+                if self.adj_matrix[vertex][i] !=0:
+                    count += self.adj_matrix[vertex][i]
+
+
+            if count > max_sum:
+                max_sum = count
+                max_vertex = vertex
+
+
+        print(f"\nVertex with maximum sum: {max_vertex} (Total sum: {max_sum})")
+        return max_vertex, max_sum
+
+
+# Driver code
+vertices = 7
+edges = [
+    (0,1,2),
+    (0,2,6),
+    (0,3,1),
+    (0,4,9),
+    (0,5,7),
+    (0,6,4),
+    (1,3,5),
+    (1,4,8),
+    (1,5,1),
+    (2,4,1),
+    (2,6,2),
+    (3,5,9),
+    (3,6,2),
+    (4,5,1),
+    (4,6,6),
+    (5,6,7),
+    ]
+
+
+graph = Graph(vertices)
+print("Before putting connections:")
+graph.print_matrix()
+
+
+print("After putting connections:")
+graph.add_edges(edges)
+graph.print_matrix()
+
+
+graph.find_neighbors(vertex=0)
+graph.find_neighbors(vertex=1)
+graph.find_neighbors(vertex=2)
+graph.find_neighbors(vertex=3)
+graph.find_neighbors(vertex=4)
+graph.find_neighbors(vertex=5)
+graph.find_neighbors(vertex=6)
+graph.find_max_sum()
+
+
+#Adjacent List
+class Node:
+    def __init__(self, elem, weight, next=None):
+        self.elem = elem
+        self.weight = weight
+        self.next = next
+
+
+class Graph:
+    def __init__(self, vertices):
+        self.vertices = vertices
+        self.adj_list = [None] * vertices
+
+
+    def add_edge(self, edges):
+        for i, j, weight in edges:
+            new_node = Node(j, weight)
+            new_node.next = self.adj_list[i]
+            self.adj_list[i] = new_node
+
+
+            new_node = Node(i, weight)
+            new_node.next = self.adj_list[j]
+            self.adj_list[j] = new_node
+
+
+    def print_graph(self):
+        print("Adjacency List for undirected weighted graph:")
+        for i in range(self.vertices):
+            print(f"{i}: ", end="")
+            t = self.adj_list[i]
+            while t != None:
+                print(f"({t.elem}, (weight= {t.weight})", end=" -> ")
+                t = t.next
+            print("None")
+
+
+    def find_neighbors(self, vertex):
+        print(f"\nNeighbors of vertex {vertex}: ", end="")
+        t = self.adj_list[vertex]
+        while t!=None:
+            if t.next!= None:
+                print(f"{t.elem} ,(weight= {t.weight})", end=", ")
+            else:
+                print(f"{t.elem} ,(weight= {t.weight})", end="")
+            t = t.next
+        print()
+
+
+    def find_max_sum(self):
+        max_sum = 0
+        max_vertex = -1
+
+
+        for i in range(self.vertices):
+            count= 0
+            t = self.adj_list[i]
+            while t != None:
+                count += t.weight
+                t = t.next
+
+
+            if count > max_sum:
+                max_sum = count
+                max_vertex = i
+
+
+        print(f"\nVertex with maximum sum: {max_vertex} (Total sum: {max_sum})")
+        return max_vertex, max_sum
+
+
+# Driver code
+vertices = 7
+edges = [
+    (0, 1, 2),
+    (0, 2, 6),
+    (0, 3, 1),
+    (0, 4, 9),
+    (0, 5, 7),
+    (0, 6, 4),
+    (1, 3, 5),
+    (1, 4, 8),
+    (1, 5, 1),
+    (2, 4, 1),
+    (2, 6, 2),
+    (3, 5, 9),
+    (3, 6, 2),
+    (4, 5, 1),
+    (4, 6, 6),
+    (5, 6, 7),
+]
+
+
+graph = Graph(vertices)
+print("Before adding connections:")
+graph.print_graph()
+
+
+print("After adding connections:")
+graph.add_edge(edges)
+graph.print_graph()
+
+
+graph.find_neighbors(vertex=0)
+graph.find_neighbors(vertex=1)
+graph.find_neighbors(vertex=2)
+graph.find_neighbors(vertex=3)
+graph.find_neighbors(vertex=4)
+graph.find_neighbors(vertex=5)
+graph.find_neighbors(vertex=6)
+graph.find_max_sum()
+
+
+
+
+#Task 3
+#Adjacent Matrix
+class Graph:
+    def __init__(self, vertices):
+        self.vertices = vertices
+        self.adj_matrix = np.zeros((vertices,vertices),dtype=int)
+
+
+
+
+    def add_edges(self, edges):
+
+
+        for i, j,weight in edges:
+            self.adj_matrix[i][j] = weight
+
+
+    def print_matrix(self):
+
+
+        print("Adjacency Matrix for directed weighted graph:")
+        for row in self.adj_matrix:
+            print(row)
+
+
+    def find_neighbors(self, vertex):
+
+
+        neighbors = []
+        for i in range(self.vertices):
+            if self.adj_matrix[vertex][i] !=0:
+                neighbors+=str(i)
+
+
+        print(f"\nNeighbors of vertex {vertex}: ", end="")
+        for i in range(len(neighbors)):
+             if i != 0:
+               print(", ", end="")
+             print(int(neighbors[i]), end="")
+
+
+    def find_max_degree(self):
+        max_degree = 0
+        max_vertex = -1
+
+
+        for vertex in range(self.vertices):
+            count = 0
+            for i in range(self.vertices):
+                if self.adj_matrix[vertex][i] !=0:
+                    count += 1
+
+
+            if count > max_degree:
+                max_degree = count
+                max_vertex = vertex
+
+
+        print(f"\nVertex with maximum degree: {max_vertex} (Total degree: {max_degree})")
+        return max_vertex, max_degree
+
+
+
+
+    def find_max_sum(self):
+        max_sum = 0
+        max_vertex = -1
+
+
+        for vertex in range(self.vertices):
+            count = 0
+            for i in range(self.vertices):
+                if self.adj_matrix[vertex][i] !=0:
+                    count += self.adj_matrix[vertex][i]
+
+
+            if count > max_sum:
+                max_sum = count
+                max_vertex = vertex
+
+
+        print(f"\nVertex with maximum sum: {max_vertex} (Total sum: {max_sum})")
+        return max_vertex, max_sum
+
+
+# Driver code
+vertices = 7
+edges = [
+    (0,1,2),
+    (0,6,4),
+    (1,3,5),
+    (1,5,1),
+    (2,0,6),
+    (2,4,1),
+    (3,0,1),
+    (3,5,9),
+    (4,0,9),
+    (4,1,8),
+    (4,5,1),
+    (4,6,6),
+    (5,0,7),
+    (5,6,7),
+    (6,2,2),
+    (6,3,2)
+    ]
+
+
+graph = Graph(vertices)
+print("Before putting connections:")
+graph.print_matrix()
+
+
+print("After putting connections:")
+graph.add_edges(edges)
+graph.print_matrix()
+
+
+graph.find_neighbors(vertex=0)
+graph.find_neighbors(vertex=1)
+graph.find_neighbors(vertex=2)
+graph.find_neighbors(vertex=3)
+graph.find_neighbors(vertex=4)
+graph.find_neighbors(vertex=5)
+graph.find_neighbors(vertex=6)
+graph.find_max_degree()
+graph.find_max_sum()
+
+
+#Adjacent List
+class Node:
+    def __init__(self, elem, weight, next=None):
+        self.elem = elem
+        self.weight = weight
+        self.next = next
+
+
+
+
+class Graph:
+    def __init__(self, vertices):
+        self.vertices = vertices
+        self.adj_list = [None] * vertices
+
+
+    def add_edge(self, edges):
+        for i, j, weight in edges:
+            new_node = Node(j, weight)
+            new_node.next= self.adj_list[i]
+            self.adj_list[i] = new_node
+
+
+    def print_graph(self):
+        print("Adjacency List for Directed Weighted Graph:")
+        for i in range(self.vertices):
+            print(f"{i}: ", end="")
+            t = self.adj_list[i]
+            while t!= None:
+                print(f"({t.elem}, weight={t.weight})", end=" -> ")
+                t= t.next
+            print("None")
+
+
+    def find_neighbors(self, vertex):
+        print(f"\nNeighbors of vertex {vertex}: ", end="")
+        t = self.adj_list[vertex]
+        while t!= None:
+            if t.next != None:
+                print(f"{t.elem} (weight={t.weight})", end=", ")
+            else:
+                print(f"{t.elem} (weight={t.weight})", end="")
+            t = t.next
+        print()
+
+
+    def find_max_degree(self):
+        max_degree = 0
+        max_vertex = -1
+
+
+        for i in range(self.vertices):
+            count = 0
+            t= self.adj_list[i]
+            while t!= None:
+                count += 1
+                t = t.next
+
+
+            if count > max_degree:
+                max_degree = count
+                max_vertex = i
+
+
+        print(f"\nVertex with maximum out-degree: {max_vertex} (Total degree: {max_degree})")
+        return max_vertex, max_degree
+
+
+    def find_max_sum(self):
+        max_sum = 0
+        max_vertex = -1
+
+
+        for i in range(self.vertices):
+            count = 0
+            t = self.adj_list[i]
+            while t!= None:
+                count += t.weight
+                t = t.next
+
+
+            if count > max_sum:
+                max_sum = count
+                max_vertex = i
+
+
+        print(f"\nVertex with maximum sum of weights: {max_vertex} (Total sum: {max_sum})")
+        return max_vertex, max_sum
+
+
+
+
+# Driver Code
+vertices = 7
+edges = [
+    (0, 1, 2),
+    (0, 6, 4),
+    (1, 3, 5),
+    (1, 5, 1),
+    (2, 0, 6),
+    (2, 4, 1),
+    (3, 0, 1),
+    (3, 5, 9),
+    (4, 0, 9),
+    (4, 1, 8),
+    (4, 5, 1),
+    (4, 6, 6),
+    (5, 0, 7),
+    (5, 6, 7),
+    (6, 2, 2),
+    (6, 3, 2),
+]
+
+
+graph = Graph(vertices)
+
+
+print("Before adding edges:")
+graph.print_graph()
+
+
+print("\nAfter adding edges:")
+graph.add_edge(edges)
+graph.print_graph()
+
+
+graph.find_neighbors(vertex=0)
+graph.find_neighbors(vertex=1)
+graph.find_neighbors(vertex=2)
+graph.find_neighbors(vertex=3)
+graph.find_neighbors(vertex=4)
+graph.find_neighbors(vertex=5)
+graph.find_neighbors(vertex=6)
+graph.find_max_degree()
+graph.find_max_sum()
+
+
+
+
+
+
+#Task 4
+#adjacent matrix
+class Graph:
+    def __init__(self, vertices):
+        self.vertices = vertices
+        self.adj_matrix = np.zeros((vertices,vertices),dtype=int)
+
+
+
+
+    def add_edges(self, edges):
+
+
+        for i, j,weight in edges:
+            self.adj_matrix[i][j] = weight
+
+
+    def print_matrix(self):
+
+
+        print("Adjacency Matrix for directed weighted graph:")
+        for row in self.adj_matrix:
+            print(row)
+
+
+    def find_neighbors(self, vertex):
+
+
+        neighbors = []
+        for i in range(self.vertices):
+            if self.adj_matrix[vertex][i] !=0:
+                neighbors+=str(i)
+
+
+        print(f"\nNeighbors of vertex {vertex}: ", end="")
+        for i in range(len(neighbors)):
+             if i != 0:
+               print(", ", end="")
+             print(int(neighbors[i]), end="")
+
+
+
+
+
+
+
+
+    def convert_undirected(self,graph):
+
+
+        vertices = len(graph)
+
+
+        undirected_graph=np.zeros((vertices,vertices),dtype=int)
+        for i in range(vertices):
+            for j in range(vertices):
+                if graph[i][j] != 0:
+                    undirected_graph[i][j] = graph[i][j]
+                    undirected_graph[j][i] = graph[i][j]
+
+
+        return undirected_graph
+
+
+    def print_undirected(self,undirected_graph):
+        print("\nUndirected Graph:")
+        for i in undirected_graph:
+            print(i)
+
+
+    def find_undirected_neighbors(self, undirected_graph, vertex):
+        neighbors = []
+        for i in range(len(undirected_graph)):
+            if undirected_graph[vertex][i] != 0:
+                neighbors+=str(i)
+
+
+        print(f"\nNeighbors of vertex {vertex} in undirected graph: ", end="")
+        for i in range(len(neighbors)):
+            if i != 0:
+                print(", ", end="")
+            print(int(neighbors[i]), end="")
+
+
+# Driver code
+vertices = 7
+edges = [
+    (0,1,2),
+    (0,6,4),
+    (1,3,5),
+    (1,5,1),
+    (2,0,6),
+    (2,4,1),
+    (3,0,1),
+    (3,5,9),
+    (4,0,9),
+    (4,1,8),
+    (4,5,1),
+    (4,6,6),
+    (5,0,7),
+    (5,6,7),
+    (6,2,2),
+    (6,3,2)
+    ]
+
+
+graph = Graph(vertices)
+print("Before putting connections:")
+graph.print_matrix()
+
+
+print("After putting connections:")
+graph.add_edges(edges)
+graph.print_matrix()
+
+
+graph.find_neighbors(vertex=0)
+graph.find_neighbors(vertex=1)
+graph.find_neighbors(vertex=2)
+graph.find_neighbors(vertex=3)
+graph.find_neighbors(vertex=4)
+graph.find_neighbors(vertex=5)
+graph.find_neighbors(vertex=6)
+undirected_graph=graph.convert_undirected(graph.adj_matrix)
+graph.print_undirected(undirected_graph)
+for vertex in range(vertices):
+    graph.find_undirected_neighbors(undirected_graph, vertex)
+
+
+#Adjacent List
+class Node:
+    def __init__(self, elem, weight, next=None):
+        self.elem = elem
+        self.weight = weight
+        self.next = next
+
+
+class Graph:
+    def __init__(self, vertices):
+        self.vertices = vertices
+        self.adj_list = [None] * vertices
+
+
+    def add_edge(self, edges):
+        for i, j, weight in edges:
+            new_node = Node(j, weight)
+            new_node.next = self.adj_list[i]
+            self.adj_list[i] = new_node
+
+
+    def print_graph(self):
+        print("Adjacency List:")
+        for i in range(self.vertices):
+            print(f"{i}: ", end="")
+            t = self.adj_list[i]
+            while t!=None:
+                print(f"({t.elem}, weight={t.weight})", end=" -> ")
+                t = t.next
+            print("None")
+
+
+    def find_neighbors(self, vertex):
+        print(f"\nNeighbors of vertex {vertex}: ", end="")
+        t = self.adj_list[vertex]
+        while t!=None:
+            if t.next!=None:
+                print(f"{t.elem} (weight={t.weight})", end=", ")
+            else:
+                print(f"{t.elem} (weight={t.weight})", end="")
+            t = t.next
+        print()
+
+
+    def convert_to_undirected(self):
+        for i in range(self.vertices):
+            t = self.adj_list[i]
+            while t!=None:
+                j = t.elem
+                weight = t.weight
+                new_node = Node(i, weight)
+                flag = False
+                temp = self.adj_list[j]
+                while temp!=None:
+                    if temp.elem == i and temp.weight == weight:
+                        flag = True
+                        break
+                    temp = temp.next
+
+
+                if flag==False:
+                    new_node.next = self.adj_list[j]
+                    self.adj_list[j] = new_node
+                t = t.next
+
+
+# Driver Code
+vertices = 7
+edges = [
+    (0, 1, 2),
+    (0, 6, 4),
+    (1, 3, 5),
+    (1, 5, 1),
+    (2, 0, 6),
+    (2, 4, 1),
+    (3, 0, 1),
+    (3, 5, 9),
+    (4, 0, 9),
+    (4, 1, 8),
+    (4, 5, 1),
+    (4, 6, 6),
+    (5, 0, 7),
+    (5, 6, 7),
+    (6, 2, 2),
+    (6, 3, 2),
+]
+
+
+graph = Graph(vertices)
+print("Before adding connections:")
+graph.print_graph()
+
+
+print("\nAfter adding connections:")
+graph.add_edge(edges)
+graph.print_graph()
+
+
+graph.find_neighbors(vertex=0)
+graph.find_neighbors(vertex=1)
+graph.find_neighbors(vertex=2)
+graph.find_neighbors(vertex=3)
+graph.find_neighbors(vertex=4)
+graph.find_neighbors(vertex=5)
+graph.find_neighbors(vertex=6)
+
+
+print("\nConverting to Undirected Weighted Graph")
+graph.convert_to_undirected()
+graph.print_graph()

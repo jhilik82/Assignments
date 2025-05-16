@@ -1,0 +1,257 @@
+﻿#Task1:
+
+
+def alternate_merge(head1, head2):
+  f1 = head1
+  f2 = head2
+  temp1 = f1.next
+  temp2 = f2.next
+  while f1 != None and f2 != None:
+    f1.next = f2
+    f2.next = temp1
+    f1 = temp1
+    f2 = temp2
+    if f1 != None:
+      temp1 = f1.next
+    if f2 != None:
+      temp2 = f2.next
+  return head1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#Task2:
+
+
+def word_Decoder(head):
+    count = 0
+    temp = head
+    while temp != None:
+      count += 1
+      temp = temp.next
+    step = 13 % count
+    temp = head
+    dH = Node(0)
+    idx = 0
+
+
+    while temp != None:
+      if idx != 0 and idx % step == 0:
+        new_node = Node(temp.elem)
+        new_node.next = dH.next
+        dH.next = new_node
+      temp = temp.next
+      idx += 1
+    return new_node
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#Task3:
+
+
+def idGenerator(head1, head2, head3):
+  current = head1
+  prev = None
+  while current:
+        next_node = current.next
+        current.next = prev
+        prev = current
+        current = next_node
+  head1 = prev
+  dummy = Node(0)
+  tail = dummy
+  temp2, temp3 = head2, head3
+  while temp2 and temp3:
+        summation = (temp2.elem + temp3.elem) % 10
+        tail.next = Node(summation)
+        tail = tail.next
+        temp2 = temp2.next
+        temp3 = temp3.next
+  temp = head1
+  while temp.next:
+        temp = temp.next
+  temp.next = dummy.next
+
+
+  return head1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#Task4:
+
+
+class WRM:
+  def __init__(self):
+    self.dh = Patient(None,None,None,None,None,None)
+    self.dh.next = self.dh
+    self.dh.prev = self.dh
+
+
+  def registerPatient(self,id, name, age, bloodgroup):
+    pt=Patient(id, name, age, bloodgroup, None, None)
+    tail=self.dh.prev
+    tail.next=pt
+    pt.prev=tail
+    pt.next=self.dh
+    self.dh.prev=pt
+    return f"Patient Registered Successfully"
+  def servePatient(self):
+    if self.dh.next==self.dh:
+      return "No Patient Found"
+    else:
+      p1=self.dh.next
+      self.dh.next=p1.next
+      p1.next.prev=self.dh
+      return f"Patient {p1.name} is being served"
+  def showAllPatient(self):
+    if self.dh.next==self.dh:
+      return "No Patient Found"
+    current=self.dh.next
+    while current!=self.dh:
+      print(current.name, end='  ')
+      current=current.next
+
+
+  def canDoctorGoHome(self):
+    if self.dh.next==self.dh:
+      return "Yes. Doctor can go home."
+    else:
+      return "No. Doctor can't go home. Patient is wating."
+  def cancelAll(self):
+    if self.dh.next==self.dh and self.dh.prev==self.dh:
+      return "All Patient Cancelled/Removed"
+  def ReverseTheLine(self):
+    if self.dh.next==self.dh:
+      print("No Patient Found")
+      return
+    current=self.dh.prev
+    while True:
+      temp = current.next
+      current.next = current.prev
+      current.prev = temp
+      current = current.prev
+      if current == self.dh:
+        break
+      return "Line Reversed Successfully"
+
+
+
+
+print("**Welcome to Waiting Room Management System**")
+p=WRM()
+while True:
+  print("--- Waiting Room Management System ---")
+  print("1. Add Patient")
+  print("2. Serve Patient")
+  print("3. Show All Patients")
+  print("4. Can Doctor Go Home?")
+  print("5. Cancel All Appointments")
+  print("6. Reverse The Line")
+  print("7. Exit")
+  choice=input("Enter your choice: ")
+  if choice=="1":
+    id=int(input("Enter Patient ID: "))
+    name=input("Enter Patient Name: ")
+    age=int(input("Enter Patient Age: "))
+    bloodgroup=input("Enter Patient Blood Group: ")
+    print(p.registerPatient(id, name, age, bloodgroup))
+  elif choice=="2":
+    print("Serving Patient")
+    print(p.servePatient())
+  elif choice=="3":
+    print("Showing All Patients")
+    print(p.showAllPatient())
+  elif choice=="4":
+    print("Can Doctor Go Home?")
+    print(p.canDoctorGoHome())
+  elif choice=="5":
+    print("Canceling All Appointments")
+    print(p.cancelAll())
+  elif choice=="6":
+    print("Reversing The Line")
+    print(p.ReverseTheLine())
+  elif choice=="7":
+    print("Exiting the server")
+    break
+  else:
+    print("Invalid Choice")

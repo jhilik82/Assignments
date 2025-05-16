@@ -1,0 +1,86 @@
+﻿#Task1
+def convert_mirror(root):
+  if root == None:
+    return None
+  root.left, root.right = root.right, root.left
+  convert_mirror(root.left)
+  convert_mirror(root.right)
+  return root
+
+
+#Task2
+def smallest_level(root, level = {}, i = 0):
+  if root == None:
+    return
+  if i not in level or root.elem < level[i]:
+      level[i] = root.elem
+      smallest_level(root.left, level, i+1)
+      smallest_level(root.right, level, i+1)
+  return level
+
+
+#Task3
+def sumTree(root):
+  sum1 = helper(root.left, 1)
+  sum2 = helper(root.right, 1)
+  return sum1 + sum2 + root.elem
+
+
+def helper(root, level):
+    if root == None:
+      return 0
+    current = root.elem % level
+
+
+    return current + helper(root.left, level+1) + helper(root.right, level+1)
+
+
+
+
+
+
+
+
+
+
+
+
+#Task4
+def swap_child(root, level, M):
+  if root == None:
+    return
+  if level != M:
+    root.left, root.right = root.right, root.left
+  swap_child(root.left, level+1, M)
+  swap_child(root.right, level+1, M)
+  return root
+
+
+
+
+#Task5
+def subtract_summation(root):
+  left=sum(root.left)
+  right=sum(root.right)
+  sub=left-right
+  return sub
+
+
+def sum(node):
+  if node == None:
+    return 0
+  return node.elem + sum(node.left) + sum(node.right)
+
+
+
+
+#Task6
+def level_sum(root):
+  def sum(node, level):
+    if node is None:
+      return 0
+    if level % 2 == 0:
+      return node.elem + sum(node.left, level + 1) + sum(node.right, level + 1)
+    else:
+      return -node.elem + sum(node.left, level + 1) + sum(node.right, level + 1)
+  return sum(root, 1)

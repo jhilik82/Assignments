@@ -1,0 +1,254 @@
+﻿#Task 1:
+
+
+  def __hash_function(self, key):
+    n = len(key)
+    if n%2!=0:
+      key += "N"
+    sum = 0
+    for i in range(0, n, 2):
+      first_char=key[i]
+      second_char=key[i+1]
+      sum+=int(str(ord(first_char))+str(ord(second_char)))
+    index=sum%len(self.ht)
+    return index      
+
+
+  def search_hashtable(self, s):
+    hashed_index = self.__hash_function(s[0])
+    head = self.ht[hashed_index]
+    while head != None:
+      if head.key==s[0] and head.value==s[1]:
+        return 'Found'
+      head = head.next
+    return 'Not Found'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#Task 2:
+
+
+  def __hash_function(self, key):
+    n=len(key)
+    sum=0
+    for i in range(n):
+      if i%2==n%2:
+        sum+=ord(key[i])
+    index=sum%self.length
+    return index
+
+
+  def insert(self, key, value):
+    index = self.__hash_function(key)
+    new_node = Node((key, value))
+    if self.ht[index].value is None:
+      self.ht[index] = new_node
+    else:
+      current = self.ht[index]
+      if new_node.value[1]>current.value[1]:
+        new_node.next = current
+        self.ht[index] = new_node
+      else:
+        while current.next!=None and current.next.value[1]>=new_node.value[1]:
+          current=current.next
+        new_node.next=current.next
+        current.next=new_node
+    return self.ht
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#Task 3:
+
+
+  def __hash_function(self, key):
+    idx=(key+3)%len(self.ht)
+    return idx
+   
+  def remove(self, key):
+    idx=self.__hash_function(key)
+    current=self.ht[idx]
+    if current.key==key:
+      self.ht[idx]=current.next
+    prev=current
+    current=current.next
+    while current!=None:
+      if current.key==key:
+        prev.next=current.next
+      prev=current
+      current=current.next
+    return self.ht
+
+
+#Task 4:
+
+
+def diamond_count(stack,string):
+  stack = Stack()
+  count = 0
+  for  char in string:
+    if char == "<":
+      stack.push(char)
+    elif char == ">":
+      if stack.isEmpty() != None and stack.peek() == "<":
+        stack.pop()
+        count += 1
+  return count
+
+
+
+
+
+
+#Task 5:
+
+
+def remove_block(stack, n):
+  temp = Stack()
+  count = 0
+  while count < n-1:
+    temp.push(stack.pop())
+    count += 1
+  remove_block = stack.pop()
+  while not  temp.isEmpty():
+    stack.push(temp.pop())
+
+
+  return print_stack(temp)
+
+
+#Task 6:
+
+
+def conditional_reverse(stack):
+  reversed_stack = Stack()
+  temp_stack=Stack()
+
+
+  while not stack.isEmpty():
+    removed=stack.pop()
+    if reversed_stack.peek()==removed:
+      continue
+    else:
+      reversed_stack.push(removed)
+  return reversed_stack
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#Task 7:
+
+
+class CallQueue:
+    def __init__(self):
+        self.vip_queue = LinkedListQueue()
+        self.regular_queue = LinkedListQueue()
+
+
+    def enqueue_call(self, customer_id, is_vip):
+      if is_vip:
+        self.vip_queue.enqueue(customer_id)
+        print(f"Customer {customer_id} added to VIP queue.")
+      else:
+        self.regular_queue.enqueue(customer_id)
+        print(f"Customer {customer_id} added to Regular queue.")
+
+
+    def dequeue_call(self):
+      if not self.vip_queue.is_empty():
+        id = self.vip_queue.dequeue()
+        print(f"Processing VIP Customer {id}.")
+        return id
+      elif not self.regular_queue.is_empty():
+        id = self.regular_queue.dequeue()
+        print(f"Processing Regular Customer {id}.")
+        return id
+      else:
+        print("No calls in the queue.")
+        return None
+
+
+    def display_queue(self):
+        if self.vip_queue.is_empty() and self.regular_queue.is_empty():
+            if not self.vip_queue.is_empty():
+                print("VIP Queue (front to rear):", end=" ")
+                current = self.vip_queue.front
+                while current:
+                    print(f"{current.elem} ->", end=" ")
+                    current = current.next
+                print("NULL")
+            else:
+                print("VIP Queue is empty.")
+           
+            if not self.regular_queue.is_empty():
+                print("Regular Queue (front to rear):", end=" ")
+                current = self.regular_queue.front
+                while current:
+                    print(f"{current.elem} ->", end=" ")
+                    current = current.next
+                print("NULL")
+            else:
+                print("Regular Queue is empty.")
+        print("VIP Queue:")
+        if self.vip_queue.is_empty():
+            print("Queue (front to rear): NULL")
+        else:
+            print("Queue (front to rear):", end=" ")
+        print("Regular Queue:")
+        if self.regular_queue.is_empty():
+            print("Queue (front to rear): NULL")
+        else:
+            print("Queue (front to rear):", end=" ")

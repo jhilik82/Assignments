@@ -1,0 +1,73 @@
+﻿#Task 1
+def LCA(root, x, y):
+  if root == None:
+    return None
+  if root.elem>x and root.elem>y:
+    return LCA(root.left,x,y)
+  elif root.elem<x and root.elem<y:
+    return LCA(root.right,x,y)
+  else:
+    return root.elem
+
+
+  return root.elem
+
+
+
+
+#Task 2
+def find_path(root, key):
+  path = [None]*100
+  if find(root, key, path, 0):
+    result = []
+    for i in range(len(path)):
+      if path[i] is not None:
+        result += [path[i]]
+      else:
+        break
+    return result
+  else:
+    return "No Path Found"
+
+
+def find(root,key,path,index):
+  if root == None:
+    return False
+  path[index] = root.elem
+  index += 1
+  if root.elem == key:
+    return True
+  if find(root.left,key,path,index) or  find(root.right,key,path,index):
+    return True
+  index -= 1
+  path[index] = None
+  return False
+
+
+
+#Task 3
+def sum_of_leaves(root, sum):
+  if root is None:
+    return 0
+  if root.left == None and root.right == None:
+    #sum+=root.elem
+    return sum+root.elem
+  left=sum_of_leaves(root.left,sum)
+  right=sum_of_leaves(root.right,sum)
+  return left+right
+
+
+
+
+#Task 4
+def mirror_sum(root):
+  if root == None:
+    return 0
+  def helper(Lnode, Rnode):
+    if Lnode == None or Rnode == None:
+      return 0
+    total = Lnode.elem + Rnode.elem
+    total += helper(Lnode.left, Rnode.right)
+    total += helper(Lnode.right, Rnode.left)
+    return total
+  return helper(root.left, root.right)
